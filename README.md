@@ -17,15 +17,15 @@ A remote proxy server for Agent Skills that enables skill discovery, execution, 
 ## Architecture
 
 ```
-┌─────────────┐    gRPC/HTTP     ┌─────────────────────┐
-│   Agent     │ ◄──────────────► │ AgentSkills-Proxy   │
-│             │                  │                     │
-└─────────────┘                  │ • Skill Registry    │
-                                 │ • Execution Engine  │
-┌─────────────┐    Skills       │ • Artifact Manager  │
-│   Skills    │ ──────────────► │ • gRPC Server       │
-│ (SKILL.md)  │                 │ • HTTP API          │
-└─────────────┘                 └─────────────────────┘
+┌─────────────┐    gRPC/HTTP     ┌────────────────────────────┐
+│   Agent     │ ◄──────────────► │  AgentSkills-Proxy         │
+│             │                  │                            │
+└─────────────┘                  │ • Skill Registry           │
+                                 │ • Execution Engine         │
+┌─────────────┐    Skills       │ • Artifact Manager         │
+│   Skills    │ ──────────────► │ • gRPC Server              │
+│ (SKILL.md)  │                 │ • HTTP API                 │
+└─────────────┘                 └────────────────────────────┘
 ```
 
 ## Supported Skills

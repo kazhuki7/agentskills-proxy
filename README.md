@@ -77,13 +77,13 @@ The service will show 1 skill (example-skill) by default. Additional skills can 
 ### Installation
 
 ```bash
-npm install @agentskillsproxy/sdk
+npm install agentskills-proxy-sdk
 ```
 
 ### Example
 
 ```javascript
-import { AgentSkillsProxy } from '@agentskillsproxy/sdk';
+import { AgentSkillsProxy } from 'agentskills-proxy-sdk';
 
 const client = new AgentSkillsProxy({
   host: 'localhost',

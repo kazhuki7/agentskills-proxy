@@ -76,7 +76,7 @@ curl http://localhost:5271/api/skills
 
 ```bash
 # 从 npm 安装
-npm install @agentskillsproxy/sdk
+npm install agentskills-proxy-sdk
 
 # 从源码安装（开发版本）
 cd agentskills-proxy/packages/sdk
@@ -88,7 +88,7 @@ npm link
 ### 快速开始
 
 ```javascript
-import { AgentSkillsProxy } from '@agentskillsproxy/sdk';
+import { AgentSkillsProxy } from 'agentskills-proxy-sdk';
 
 // 创建客户端实例
 const client = new AgentSkillsProxy({

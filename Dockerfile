@@ -50,7 +50,7 @@ EXPOSE 50051 5271
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:8080/health || exit 1
+  CMD curl -f http://localhost:5271/health || exit 1
 
 # Start application
 CMD ["node", "dist/index.js"]

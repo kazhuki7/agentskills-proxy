@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  agentskills-proxy:
+    build: .
+    container_name: agentskills-proxy
+    ports:
+      - "50051:50051"
+      - "5271:5271"
+    volumes:
+      # Mount skills directory (read-only) from project root
+      - ../skills:/app/skills:ro
+      # Mount data directory (read-write)
+      - ./data:/app/data:rw
+      # Mount logs directory
+      - ./logs:/app/logs:rw
+    environment:
+      - NODE_ENV=production
+      - SKILLS_DIR=/app/skills
+      - ARTIFACTS_DIR=/app/artifacts
+      - GRPC_PORT=50051
+      - HTTP_PORT=5271
+      - HTTP_HOST=0.0.0.0
+      - LOG_LEVEL=info
+      # Execution limits
+      - MAX_EXECUTION_TIME=300
+      - MAX_MEMORY_MB=512
+      - ENABLE_SHELL_EXECUTION=true
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp
+    networks:
+      - skill-network
+
+networks:
+  skill-network:
+    driver: bridge

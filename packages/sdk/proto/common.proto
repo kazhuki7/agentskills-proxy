@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package skillframework;
+
+// Common response status
+message Status {
+  int32 code = 1;
+  string message = 2;
+  map<string, string> details = 3;
+}
+
+// Skill metadata (Level 1)
+message SkillMetadata {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string version = 4;
+  repeated string tags = 5;
+  string author = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+  string license = 9;
+}
+
+// File reference
+message FileReference {
+  string path = 1;
+  string type = 2;
+  int64 size = 3;
+  string checksum = 4;
+}
+
+// Load level for progressive loading
+enum LoadLevel {
+  METADATA_ONLY = 0;
+  WITH_INSTRUCTIONS = 1;
+  FULL_RESOURCES = 2;
+}
+
+// Script type for execution
+enum ScriptType {
+  JAVASCRIPT = 0;
+  PYTHON = 1;
+  SHELL = 2;
+}
+
+// Execution status
+enum ExecutionStatus {
+  PENDING = 0;
+  RUNNING = 1;
+  COMPLETED = 2;
+  FAILED = 3;
+  TIMEOUT = 4;
+  CANCELLED = 5;
+}

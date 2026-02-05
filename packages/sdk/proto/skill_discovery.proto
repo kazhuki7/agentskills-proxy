@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package skillframework;
+
+import "common.proto";
+
+service SkillDiscoveryService {
+  // List all skills (metadata only)
+  rpc ListSkills(ListSkillsRequest) returns (ListSkillsResponse);
+  
+  // Search skills by query
+  rpc SearchSkills(SearchSkillsRequest) returns (SearchSkillsResponse);
+  
+  // Get skill details with specified load level
+  rpc GetSkillDetails(GetSkillDetailsRequest) returns (GetSkillDetailsResponse);
+  
+  // Watch for skill changes (streaming)
+  rpc WatchSkills(WatchSkillsRequest) returns (stream SkillChangeEvent);
+}
+
+message ListSkillsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  repeated string tags = 3;
+}
+
+message ListSkillsResponse {
+  repeated SkillMetadata skills = 1;
+  int32 total = 2;
+  Status status = 3;
+}
+
+message SearchSkillsRequest {
+  string query = 1;
+  repeated string tags = 2;
+  int32 limit = 3;
+}
+
+message SearchSkillsResponse {
+  repeated SkillMetadata skills = 1;
+  Status status = 2;
+}
+
+message GetSkillDetailsRequest {
+  string skill_id = 1;
+  LoadLevel level = 2;
+}
+
+message GetSkillDetailsResponse {
+  SkillMetadata metadata = 1;
+  SkillInstructions instructions = 2;
+  SkillResources resources = 3;
+  Status status = 4;
+}
+
+// Level 2: Instructions content
+message SkillInstructions {
+  string markdown_content = 1;
+  repeated string allowed_tools = 2;
+  map<string, string> parameters = 3;
+  repeated string examples = 4;
+}
+
+// Level 3: Resource references
+message SkillResources {
+  repeated FileReference scripts = 1;
+  repeated FileReference assets = 2;
+  repeated FileReference references = 3;
+  string download_base_url = 4;
+}
+
+message WatchSkillsRequest {
+  repeated string skill_ids = 1;
+}
+
+message SkillChangeEvent {
+  enum EventType {
+    ADDED = 0;
+    UPDATED = 1;
+    DELETED = 2;
+  }
+  EventType type = 1;
+  SkillMetadata skill = 2;
+  int64 timestamp = 3;
+}

@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package skillframework;
+
+import "common.proto";
+
+service SkillExecutionService {
+  // Execute a skill script (streaming output)
+  rpc ExecuteSkill(ExecuteSkillRequest) returns (stream ExecutionResponse);
+  
+  // Cancel an execution
+  rpc CancelExecution(CancelExecutionRequest) returns (CancelExecutionResponse);
+  
+  // Get execution status
+  rpc GetExecutionStatus(GetExecutionStatusRequest) returns (ExecutionStatusResponse);
+}
+
+message ExecuteSkillRequest {
+  string skill_id = 1;
+  string script_path = 2;
+  ScriptType script_type = 3;
+  map<string, string> parameters = 4;
+  ExecutionOptions options = 5;
+}
+
+message ExecutionOptions {
+  int32 timeout_seconds = 1;
+  int64 memory_limit_mb = 2;
+  bool capture_stdout = 3;
+  bool capture_stderr = 4;
+  map<string, string> env_vars = 5;
+}
+
+message ExecutionResponse {
+  string execution_id = 1;
+  ExecutionStatus status = 2;
+  oneof output {
+    StreamOutput stream = 3;
+    ExecutionResult result = 4;
+  }
+}
+
+message StreamOutput {
+  enum OutputType {
+    STDOUT = 0;
+    STDERR = 1;
+    LOG = 2;
+  }
+  OutputType type = 1;
+  string content = 2;
+  int64 timestamp = 3;
+}
+
+message ExecutionResult {
+  int32 exit_code = 1;
+  string stdout = 2;
+  string stderr = 3;
+  repeated Artifact artifacts = 4;
+  int64 execution_time_ms = 5;
+  map<string, string> metadata = 6;
+}
+
+message Artifact {
+  string id = 1;
+  string filename = 2;
+  string mime_type = 3;
+  int64 size = 4;
+  string download_url = 5;
+  string checksum = 6;
+}
+
+message CancelExecutionRequest {
+  string execution_id = 1;
+}
+
+message CancelExecutionResponse {
+  bool cancelled = 1;
+  Status status = 2;
+}
+
+message GetExecutionStatusRequest {
+  string execution_id = 1;
+}
+
+message ExecutionStatusResponse {
+  string execution_id = 1;
+  ExecutionStatus status = 2;
+  ExecutionResult result = 3;
+  Status response_status = 4;
+}

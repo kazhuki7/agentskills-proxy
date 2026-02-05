@@ -1,0 +1,35 @@
+{
+  "name": "agentskills-proxy-sdk",
+  "version": "1.0.1",
+  "description": "TypeScript/JavaScript SDK for AgentSkills-Proxy",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "proto",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "agent",
+    "skills",
+    "grpc",
+    "sdk",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "readme": "README.md",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/proto-loader": "^0.7.15"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
+}
